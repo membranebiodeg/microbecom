@@ -1,21 +1,10 @@
-library
+library(Maaslin2)
+library(tidyr)
+library(pheatmap)
 
-
-pathabun_unstrat<-read.delim(file="/home/dlaw16/metagenomics/processing/humann/pathabun/allsamples_pathabundance-cpm_unstratified.tsv", sep="\t", header = TRUE, stringsAsFactors = FALSE, row.names = 1)
-filter_pathabun_unstrat<-pathabun_unstrat[-(1:2),]
-colnames(filter_pathabun_unstrat)=gsub("_merged_trimmed_Abundance.CPM","", colnames(filter_pathabun_unstrat))
-metadata_maaslin <- read.delim(file="/home/dlaw16/metagenomics/processing/profiling/functional/maaslin/metadata_maaslin.txt", sep="\t",header = TRUE, stringsAsFactors = FALSE, row.names = 1)
-pathway_fit = Maaslin2(input_data     = filter_pathabun_unstrat, 
-                       input_metadata = metadata_maaslin, 
-                       output         = "pathway_output", 
-                       normalization  = "NONE", 
-                       fixed_effects  = c("label"),
-                       random_effects = c("site"),
-                       reference      = c("label,C0"),
-                       min_abundance  = 0.1,
-                       min_prevalence = 0.1)
 
 #uniref50
+pathabun50<-read.delim(file="/home/dlaw16/metagenomics/processing/humann/pathabun/allsamples_pathabundance50-cpm_unstratified.tsv", sep="\t", header = TRUE, stringsAsFactors = FALSE, row.names = 1)
 filter_pathabun_unstrat50<-pathabun50[-(1:2),]
 colnames(filter_pathabun_unstrat50)=gsub("_merged_trimmed_Abundance.CPM","", colnames(filter_pathabun_unstrat50))
 pathway_fit50 = Maaslin2(input_data     = filter_pathabun_unstrat50, 
@@ -72,11 +61,8 @@ gene_go_fit50 = Maaslin2(input_data   = filter_gene_go_unstrat,
 
 #eggnog
 eggnog_unstrat<-read.delim(file="/home/dlaw16/metagenomics/processing/humann/gene/allsamples_eggnog50-cpm_unstratified.tsv", sep="\t", header = TRUE, stringsAsFactors = FALSE, row.names = 1)
-
 filter_eggnog_unstrat<-eggnog_unstrat[-(1:2),]
-
 colnames(filter_eggnog_unstrat)=gsub("_merged_trimmed_Abundance.CPM","", colnames(filter_eggnog_unstrat))
-
 eggnog_fit50 = Maaslin2(input_data   = filter_eggnog_unstrat, 
                        input_metadata = metadata_maaslin, 
                        output         = "eggnog_output50", 
@@ -89,7 +75,7 @@ eggnog_fit50 = Maaslin2(input_data   = filter_eggnog_unstrat,
 
 
 # Gene families
-genefam_unstrat<-read.delim(file="/home/dlaw16/metagenomics/processing/humann/gene/allsamples_rxn-cpm_named_unstratified.tsv", sep="\t", header = TRUE, stringsAsFactors = FALSE, row.names = 1)
+genefam_unstrat<-read.delim(file="/home/dlaw16/metagenomics/processing/humann/gene/allsamples50_rxn-cpm_named_unstratified.tsv", sep="\t", header = TRUE, stringsAsFactors = FALSE, row.names = 1)
 filter_genefam_unstrat<-genefam_unstrat[-(1:2),]
 colnames(filter_genefam_unstrat)=gsub("_merged_trimmed_Abundance.CPM","", colnames(filter_genefam_unstrat))
 genefam_fit = Maaslin2(input_data     = filter_genefam_unstrat, 
@@ -103,7 +89,7 @@ genefam_fit = Maaslin2(input_data     = filter_genefam_unstrat,
                        min_prevalence = 0.1)
 
 # Filtering metabolic pathways
-sigf_pathway <- read.delim(file="/home/dlaw16/pathway_output50/significant_results.tsv", sep="\t", header = TRUE, stringsAsFactors = FALSE);
+sigf_pathway <- read.delim(file="/home/dlaw16/pathway_output50/significant_results.tsv", sep="\t", header = TRUE, stringsAsFactors = FALSE); #search for the significant_results file from the maaslin output
 
 #to arrange from smallest q values 
 top_pathway <- sigf_pathway %>% group_by(value) %>% slice_max(order = -qval, n = 100)
@@ -123,7 +109,7 @@ wide_top_pathway <- wide_top_pathway[, !(names(wide_top_pathway) %in% c('pathway
 write.table(wide_top_pathway, file = "top_pathway.tsv", sep = "\t", row.names = TRUE)
 
 # plotting in heatmap (top 80)
-hmap_pathway <- read.delim(file="/home/dlaw16/pathway_output50/top_pathway_heatmap.txt", sep="\t", header = TRUE, stringsAsFactors = FALSE);
+hmap_pathway <- read.delim(file="/home/dlaw16/pathway_output50/top_pathway_heatmap.txt", sep="\t", header = TRUE, stringsAsFactors = FALSE); #search for the heatmap.txt file from the maaslin output
 
 row.names(hmap_pathway) <- hmap_pathway$X
 hmap_pathway <- hmap_pathway[, !(names(hmap_pathway) %in% c('X'))]
@@ -166,7 +152,7 @@ pheatmap(hmap_ec_edit,
          border_color = "grey60")
 
 # plotting heatmap for chosen genes
-hmap_ko <- read.delim(file="/home/dlaw16/ko_output50/ko_heatmap.txt", sep="\t", header = TRUE, stringsAsFactors = FALSE)
+hmap_ko <- read.delim(file="/home/dlaw16/ko_output50/ko_heatmap.txt", sep="\t", header = TRUE, stringsAsFactors = FALSE) #search for the heatmap.txt results file from the maaslin output
 row.names(hmap_ko) <- hmap_ko$Gene
 hmap_ko_edit <- hmap_ko[, !(names(hmap_ko) %in% c('Gene','Activity'))]
 
