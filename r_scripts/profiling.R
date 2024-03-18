@@ -55,19 +55,19 @@ results_metaphyl$Sample<-str_replace(results_metaphyl$Sample, "t6_3", "cf_3")
 controlphyl<-results_metaphyl[results_metaphyl$Sample == 'c0_1'|results_metaphyl$Sample == 'c0_2'|results_metaphyl$Sample == 'c0_3'|results_metaphyl$Sample=='cf_1'|results_metaphyl$Sample=='cf_2'|results_metaphyl$Sample=='cf_3',]
 n_phyl1<-length(unique(controlphyl$label))
 ggplot(controlphyl,aes(y=relative_abundance,x=Sample))+geom_bar(aes(fill = label),stat = "identity")+labs(y= "Relative Abundance", x = "Samples",fill = "Bacteria phylum")+theme(legend.position='bottom',legend.text = element_text(size=15),
-legend.key.size = unit(1.5, 'cm'),legend.title = element_text(size=20), axis.text.x = element_text(size=20), axis.text.y = element_text(size=20),axis.title = element_text(size = 20))+scale_fill_manual(values=sample(wespal,n_phyl1))
+       legend.key.size = unit(1.5, 'cm'),legend.title = element_text(size=20), axis.text.x = element_text(size=20), axis.text.y = element_text(size=20),axis.title = element_text(size = 20))+scale_fill_manual(values=sample(wespal,n_phyl1))
 
 #control_t0 vs samples
 metaphyl_controlinit_sample<-results_metaphyl[results_metaphyl$Sample !='cf_1'& results_metaphyl$Sample !='cf_2'& results_metaphyl$Sample != 'cf_3',]
 n_phyl2<-length(unique(metaphyl_controlinit_sample$label))
 ggplot(metaphyl_controlinit_sample,aes(y=relative_abundance,x=Sample))+geom_bar(aes(fill = label),stat = "identity")+labs(y= "Relative Abundance", x = "Samples",fill = "Bacteria phylum")+theme(legend.position='bottom',
-legend.text = element_text(size=15),legend.key.size = unit(1.5, 'cm'),legend.title = element_text(size=20), axis.text.x = element_text(size=20), axis.text.y = element_text(size=20),axis.title = element_text(size = 20))+scale_fill_manual(values=sample(wespal,n_phyl2))
+       legend.text = element_text(size=15),legend.key.size = unit(1.5, 'cm'),legend.title = element_text(size=20), axis.text.x = element_text(size=20), axis.text.y = element_text(size=20),axis.title = element_text(size = 20))+scale_fill_manual(values=sample(wespal,n_phyl2))
 
 #control_final vs samples
 metaphyl_controlfinal_sample<-results_metaphyl[results_metaphyl$Sample !='c0_1'& results_metaphyl$Sample !='c0_2'& results_metaphyl$Sample != 'c0_3',]
 n_phyl3<-length(unique(metaphyl_controlfinal_sample$label))
 ggplot(metaphyl_controlfinal_sample,aes(y=relative_abundance,x=Sample))+geom_bar(aes(fill = label),stat = "identity")+labs(y= "Relative Abundance", x = "Samples",fill = "Bacteria phylum")+theme(legend.position='bottom',
-legend.text = element_text(size=15),legend.key.size = unit(1.5, 'cm'),legend.title = element_text(size=20), axis.text.x = element_text(size=20), axis.text.y = element_text(size=20),axis.title = element_text(size = 20))+scale_fill_manual(values=sample(wespal,n_phyl3))
+       legend.text = element_text(size=15),legend.key.size = unit(1.5, 'cm'),legend.title = element_text(size=20), axis.text.x = element_text(size=20), axis.text.y = element_text(size=20),axis.title = element_text(size = 20))+scale_fill_manual(values=sample(wespal,n_phyl3))
 
 # Composition plot at the genus level
 metagen_new=data.frame()
@@ -101,7 +101,7 @@ controlgen$orderedlabelgen <- gsub("GGB63470","Nitrospiraceae_unclassified", con
 controlgen$orderedlabelgen <- gsub("GGB66002","Proteobacteria_unclassified", controlgen$orderedlabelgen);
 n_gen1<-length(unique(controlgen$orderedlabelgen))
 ggplot(controlgen,aes(y=relative_abundance,x=Sample))+geom_bar(aes(fill = orderedlabelgen),stat = "identity")+labs(y= "Relative Abundance", x = "Samples",fill = "Bacteria genus")+theme(legend.position='bottom',
-legend.text = element_text(size=12),legend.key.size = unit(1, 'cm'),legend.title = element_text(size=20), axis.text.x = element_text(size=20), axis.text.y = element_text(size=20),axis.title = element_text(size = 20))+scale_fill_manual(values=sample(wespal,n_gen1))
+      legend.text = element_text(size=12),legend.key.size = unit(1, 'cm'),legend.title = element_text(size=20), axis.text.x = element_text(size=20), axis.text.y = element_text(size=20),axis.title = element_text(size = 20))+scale_fill_manual(values=sample(wespal,n_gen1))
 
 #control_t0 vs samples
 metagen_controlinit_sample<-metagen_new[metagen_new$Sample !='cf_1'& metagen_new$Sample !='cf_2'& metagen_new$Sample != 'cf_3',]
@@ -109,7 +109,7 @@ orderedlabelgen<-c("Others",sort(unique(metagen_controlinit_sample$label)[!uniqu
 metagen_controlinit_sample$orderedlabelgen<-factor(metagen_controlinit_sample$label,levels = orderedlabelgen) 
 n_gen2<-length(unique(metagen_controlinit_sample$orderedlabelgen))
 ggplot(metagen_controlinit_sample,aes(y=relative_abundance,x=Sample))+geom_bar(aes(fill = orderedlabelgen),stat = "identity")+labs(y= "Relative Abundance", x = "Samples",fill = "Bacteria genus")+theme(legend.position='bottom',
-legend.text = element_text(size=10),legend.key.size = unit(0.5, 'cm'),legend.title = element_text(size=20), axis.text.x = element_text(size=20), axis.text.y = element_text(size=20),axis.title = element_text(size = 20))+scale_fill_manual(values=sample(wespal,n_gen2))
+       legend.text = element_text(size=10),legend.key.size = unit(0.5, 'cm'),legend.title = element_text(size=20), axis.text.x = element_text(size=20), axis.text.y = element_text(size=20),axis.title = element_text(size = 20))+scale_fill_manual(values=sample(wespal,n_gen2))
 
 #control_final vs samples
 metagen_controlfinal_sample<-metagen_new[metagen_new$Sample !='c0_1'& metagen_new$Sample !='c0_2'& metagen_new$Sample != 'c0_3',]
@@ -117,4 +117,4 @@ orderedlabelgen<-c("Others",sort(unique(metagen_controlfinal_sample$label)[!uniq
 metagen_controlfinal_sample$orderedlabelgen<-factor(metagen_controlfinal_sample$label,levels = orderedlabelgen) 
 n_gen3<-length(unique(metagen_controlfinal_sample$orderedlabelgen))
 ggplot(metagen_controlfinal_sample,aes(y=relative_abundance,x=Sample))+geom_bar(aes(fill = orderedlabelgen),stat = "identity")+labs(y= "Relative Abundance", x = "Samples",fill = "Bacteria genus")+theme(legend.position='bottom',
-legend.text = element_text(size=10),legend.key.size = unit(0.5, 'cm'),legend.title = element_text(size=20), axis.text.x = element_text(size=20), axis.text.y = element_text(size=20),axis.title = element_text(size = 20))+scale_fill_manual(values=sample(wespal,n_gen3))
+       legend.text = element_text(size=10),legend.key.size = unit(0.5, 'cm'),legend.title = element_text(size=20), axis.text.x = element_text(size=20), axis.text.y = element_text(size=20),axis.title = element_text(size = 20))+scale_fill_manual(values=sample(wespal,n_gen3))
